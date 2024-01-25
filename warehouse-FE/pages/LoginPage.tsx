@@ -1,4 +1,4 @@
-import React, { ReactEventHandler } from 'react'
+import React from 'react'
 import '../styles/loginPage.css'
 import axios from 'axios'
 import { useState } from "react"
@@ -9,10 +9,10 @@ interface ILoginForm {
 }
 
 
-
 const LoginPage: React.FC = () => {
     const [username, setUsername] = useState<string>("");
     const [password, setPassword] = useState<string>("");
+
 
     const handleUserame = (e: React.ChangeEvent<HTMLInputElement>) => {
         setUsername(e.target.value)
@@ -26,7 +26,7 @@ const LoginPage: React.FC = () => {
         password
     }
     const submitCredential = () => {
-        axios.post<ILoginForm>("", credentials)
+        axios.post<ILoginForm>("http://localhost:3000", credentials)
             .then((response) => {
                 console.log(response.data);
             })
@@ -38,7 +38,7 @@ const LoginPage: React.FC = () => {
             <input onChange={handleUserame} placeholder="enter username"></input>
             <label>Password</label>
             <input onChange={handlePassword} placeholder="enter password"></input>
-            <button>Sign In</button>
+            <button onClick={submitCredential}>Sign In</button>
         </div>
     )
 }
