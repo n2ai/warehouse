@@ -2,17 +2,17 @@ import React from 'react'
 import '../styles/loginPage.css'
 import axios from 'axios'
 import { useState } from "react"
-
+import { useNavigate } from 'react-router'
 interface ILoginForm {
     username: string,
     password: string
 }
 
-
 const LoginPage: React.FC = () => {
     const [username, setUsername] = useState<string>("");
     const [password, setPassword] = useState<string>("");
 
+    const navigate = useNavigate()
 
     const handleUserame = (e: React.ChangeEvent<HTMLInputElement>) => {
         setUsername(e.target.value)
@@ -25,11 +25,19 @@ const LoginPage: React.FC = () => {
         username,
         password
     }
-    const submitCredential = () => {
-        axios.post<ILoginForm>("http://localhost:3000", credentials)
+
+
+    const submitCredential = (event:React.MouseEvent<HTMLButtonElement>) => {
+        event?.preventDefault()
+        axios.post("http://localhost:3000/api/login", credentials)
             .then((response) => {
-                console.log(response.data);
+                console.log(response.data.role);
+                const role = response.data.role
+                if(role === 'admin'){
+                    navigate("/admin")
+                }
             })
+            .catch(err=>alert(err))
     }
     return (
         <div>
