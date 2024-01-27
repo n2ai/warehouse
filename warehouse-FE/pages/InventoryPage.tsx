@@ -18,4 +18,6 @@ const InventoryItem: React.FC<InventoryItemProps> = ({ imageUrl, name, category,
     );
 }
 
+export default InventoryItem
+
 
