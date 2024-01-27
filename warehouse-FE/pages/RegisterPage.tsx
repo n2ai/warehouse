@@ -67,7 +67,7 @@ const RegisterPage: React.FC = () => {
     }
     return (
         <div>
-            <h1>Login</h1>
+            <h1>Register</h1>
             <label>Email</label>
             <input onChange={handleEmail} placeholder="enter email"></input>
             <label>Username</label>
