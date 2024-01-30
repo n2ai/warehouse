@@ -3,49 +3,50 @@ import '../styles/loginPage.css'
 import axios from 'axios'
 import { useState } from "react"
 import { useNavigate } from 'react-router'
+
 interface ILoginForm {
     username: string,
     password: string
 }
 
 const LoginPage: React.FC = () => {
-    const [username, setUsername] = useState<string>("");
-    const [password, setPassword] = useState<string>("");
+    const [loginForm, setLoginForm] = useState<ILoginForm>({
+        username: "",
+        password: ""
+    });
 
-    const navigate = useNavigate()
+    // const navigate = useNavigate()
 
-    const handleUserame = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setUsername(e.target.value)
-    }
-    const handlePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setPassword(e.target.value)
-    }
-
-    const credentials: ILoginForm = {
-        username,
-        password
+    const handleLogin = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setLoginForm((prev) => {
+            return (
+                { ...prev, [e.target.name]: e.target.value }
+            )
+        })
     }
 
 
-    const submitCredential = (event:React.MouseEvent<HTMLButtonElement>) => {
+
+    const submitCredential = (event: React.MouseEvent<HTMLButtonElement>) => {
         event?.preventDefault()
-        axios.post("http://localhost:3000/api/login", credentials)
+        axios.post("http://localhost:3000/api/login", loginForm)
             .then((response) => {
                 console.log(response.data.role);
                 const role = response.data.role
-                if(role === 'admin'){
+                if (role === 'admin') {
                     navigate("/admin")
                 }
             })
-            .catch(err=>alert(err))
+            .catch(err => alert(err))
     }
+    console.log(loginForm)
     return (
         <div>
             <h1>Login</h1>
             <label>Username</label>
-            <input onChange={handleUserame} placeholder="enter username"></input>
+            <input onChange={handleLogin} placeholder="enter username" name="username"></input>
             <label>Password</label>
-            <input onChange={handlePassword} placeholder="enter password"></input>
+            <input onChange={handleLogin} placeholder="enter password" name="password"></input>
             <button onClick={submitCredential}>Sign In</button>
         </div>
     )

@@ -3,12 +3,13 @@ import LandingPage from '../pages/LandingPage'
 import RegisterPage from '../pages/RegisterPage'
 import AdminPage from '../pages/AdminPage'
 import StaffPage from '../pages/StaffPage'
+import InventoryPage from '../pages/InventoryPage'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <LandingPage />
+    element: <LoginPage />
   }, {
     path: "/api/login",
     element: <LoginPage />

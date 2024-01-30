@@ -18,8 +18,8 @@ const router = require("./routes/route")
 app.use(cors());
 app.use(bodyParser.json());
 //false true
-app.use(bodyParser.urlencoded({extended:true}));
-app.use('/api',router)
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use('/api', router)
 //Routes
 
 
@@ -32,6 +32,6 @@ app.post("/", (req, res) => {
     res.send("received");
 });
 
-app.listen(port,()=>{
+app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
 })

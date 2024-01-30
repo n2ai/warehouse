@@ -2,10 +2,12 @@ import React, { ReactEventHandler } from 'react'
 import '../styles/loginPage.css'
 import axios from 'axios'
 import { useState } from "react"
+import PasswordValidation from '../helper functions/PasswordValidation'
 
 interface IRegisterForm {
     newUsername: string,
     newPassword: string,
+    checkPassword: string,
     email: string,
     sex: string,
     country: string
@@ -13,52 +15,69 @@ interface IRegisterForm {
 
 const RegisterPage: React.FC = () => {
 
-    const [newUsername, setNewUsername] = useState<string>("");
-    const [newPassword, setNewPassword] = useState<string>("");
-    const [reenterPassword, setReenterPassword] = useState<string>("");
-    const [email, setEmail] = useState<string>("");
-    const [sex, setSex] = useState<string>("");
-    const [country, setCountry] = useState<string>("");
-    const passwordRegex = /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[A-Z]).*$/
+    const [RegisterForm, setRegisterForm] = useState<IRegisterForm>({
+        newUsername: "",
+        newPassword: "",
+        checkPassword: "",
+        email: "",
+        sex: "",
+        country: ""
+    });
 
     const handleNewUser = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setNewUsername(e.target.value)
+        setRegisterForm((prev) => {
+            return (
+                { ...prev, newUsername: e.target.value }
+            )
+        })
     }
     const handleNewPassword = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setNewPassword(e.target.value)
+        setRegisterForm((prev) => {
+            return (
+                { ...prev, newPassword: e.target.value }
+            )
+        })
     }
     const handleReenterPassword = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setReenterPassword(e.target.value)
+        setRegisterForm((prev) => {
+            return (
+                { ...prev, checkPassword: e.target.value }
+            )
+        })
     }
     const handleEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setEmail(e.target.value)
+        setRegisterForm((prev) => {
+            return (
+                { ...prev, email: e.target.value }
+            )
+        })
     }
     const handleSex = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setSex(e.target.value)
+        setRegisterForm((prev) => {
+            return (
+                { ...prev, sex: e.target.value }
+            )
+        })
     }
     const handleCountry = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setCountry(e.target.value)
+        setRegisterForm((prev) => {
+            return (
+                { ...prev, country: e.target.value }
+            )
+        })
     }
 
-    const credentials: IRegisterForm = {
-        newUsername,
-        newPassword,
-        email,
-        sex,
-        country
-    }
     const submitCredential = () => {
-        if (!newPassword.match(passwordRegex)) {
+        if (!PasswordValidation(RegisterForm.checkPassword)) {
             alert("Password must contain at least one uppercase letter, one number, and one special character")
-            return
         }
         else {
-            if (newPassword !== reenterPassword) {
+            if (RegisterForm.newPassword !== RegisterForm.checkPassword) {
                 alert("Passwords do not match")
                 return
             }
             else {
-                axios.post<IRegisterForm>("http://localhost:3000", credentials)
+                axios.post<IRegisterForm>("http://localhost:3000", RegisterForm)
                     .then((response) => {
                         console.log(response.data);
                     })

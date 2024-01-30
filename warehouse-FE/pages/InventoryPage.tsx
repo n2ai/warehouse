@@ -1,23 +1,35 @@
 import React, { useState, Component } from 'react';
+import InventoryItem from '../components/InventoryItem';
 
-interface InventoryItemProps {
-    imageUrl: string;
-    name: string;
-    category: string;
-    price: number;
+interface IInventoryItem {
+    id: number,
+    itemName: string,
+    color: string,
+    size: string,
+    price: number
+    status: string
 }
 
-const InventoryItem: React.FC<InventoryItemProps> = ({ imageUrl, name, category, price }) => { 
+const InventoryPage: React.FC = () => {
+
+    const fakeDB: IInventoryItem[] = [{
+        id: 1,
+        itemName: "af1",
+        color: 'white',
+        size: '9',
+        price: 110,
+        status: 'a'
+    }]
+    const arrayList = fakeDB.map((item) => {
+        return (
+            <InventoryItem id={item.id} name={item.itemName} color={item.color} size={item.size} price={item.price} status={item.status} />
+        )
+    })
     return (
         <div>
-            <img src={imageUrl} alt={name} />
-            <h3>{name}</h3>
-            <p>Category: {category}</p>
-            <p>Price: ${price}</p>
+            {arrayList}
         </div>
-    );
+    )
 }
 
-export default InventoryItem
-
-
+export default InventoryPage
