@@ -3,34 +3,42 @@ import LandingPage from '../pages/LandingPage'
 import RegisterPage from '../pages/RegisterPage'
 import AdminPage from '../pages/AdminPage'
 import StaffPage from '../pages/StaffPage'
-import InventoryPage from '../pages/InventoryPage'
-import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import { createBrowserRouter, RouterProvider, Route, createRoutesFromElements } from 'react-router-dom'
 
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <LoginPage />
-  }, {
-    path: "/api/login",
-    element: <LoginPage />
-  }, {
-    path: "/api/register",
-    element: <RegisterPage />
-  }, {
-    path: "/admin",
-    element: <AdminPage />
-  }, {
-    path: "/staff",
-    element: <StaffPage />
-  }
-])
+// const router = createBrowserRouter([
+//   {
+//     path: "/",
+//     element: <LandingPage />
+//   }, {
+//     path: "/api/login",
+//     element: <LoginPage />
+//   }, {
+//     path: "/api/register",
+//     element: <RegisterPage />
+//   }, {
+//     path: "/admin",
+//     element: <AdminPage />
+//   }, {
+//     path: "/staff",
+//     element: <StaffPage />
+//   }
+// ])
 
 function App() {
 
+  const router = createBrowserRouter(
+    createRoutesFromElements(
+      <Route path='/'>
+        <Route path='/api/login' element={<LoginPage/>} ></Route>
+        <Route path='/api/register' element={<RegisterPage/>}></Route>
+        <Route path='/admin/:id/:username' element={<AdminPage />}></Route>
+        <Route path='/staff' element={<StaffPage/>}></Route>
+      </Route>
+    )
+  )
+
   return (
-    <>
-      <RouterProvider router={router} />
-    </>
+    <RouterProvider router={router} />
   )
 }
 

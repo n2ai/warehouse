@@ -4,12 +4,17 @@ import axios from 'axios'
 import { useState } from "react"
 import { useNavigate } from 'react-router'
 
+import { useCookies } from 'react-cookie'
 interface ILoginForm {
     username: string,
     password: string
 }
 
 const LoginPage: React.FC = () => {
+
+    const navigate = useNavigate()
+
+    const [cookies,setCookies] = useCookies(["token"])
     const [loginForm, setLoginForm] = useState<ILoginForm>({
         username: "",
         password: ""
@@ -31,15 +36,15 @@ const LoginPage: React.FC = () => {
         event?.preventDefault()
         axios.post("http://localhost:3000/api/login", loginForm)
             .then((response) => {
-                console.log(response.data.role);
-                const role = response.data.role
-                if (role === 'admin') {
-                    navigate("/admin")
+                setCookies("token",response.data.accessToken)
+                console.log(cookies)
+                console.log(response.data)
+                if(response.data.role == 'admin'){
+                    navigate(`/admin/${response.data.id}/${response.data.username}`)
                 }
             })
             .catch(err => alert(err))
     }
-    console.log(loginForm)
     return (
         <div>
             <h1>Login</h1>
