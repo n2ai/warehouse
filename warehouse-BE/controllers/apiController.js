@@ -2,11 +2,12 @@ const bcrypt = require("bcrypt")
 const fakeUserDatabase = require("../fakeDBs/fakeUserDatabase")
 const {createJWT} = require("../middleware/JWTActions")
 require("dotenv").config()
+
 const handleLogin = async(req,res)=>{
     try{
         const user = fakeUserDatabase[0]
         const password = user.password
-        const validPassword = await bcrypt.compare(req.body.password,password)
+        const validPassword = bcrypt.compare(req.body.password,password)
         if(validPassword && user.role === "admin"){
             let payload = {
                 email:user.email,
@@ -18,7 +19,7 @@ const handleLogin = async(req,res)=>{
                 id:user.id,
                 username:user.username,
                 role:user.role,
-                accessToken:token
+                accessToken:token,
             })
         }else if(validPassword){
             res.status(400).json('correct login')
