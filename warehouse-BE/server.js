@@ -4,7 +4,7 @@ const bodyParser = require("body-parser");
 const port = 3000;
 const app = express();
 const router = require("./routes/route")
-
+const {createJWT, verifyToken} = require('./middleware/JWTActions')
 
 //configure cors
 // const corsOptions = {
@@ -12,6 +12,8 @@ const router = require("./routes/route")
 //     credentials:true,
 //     methods:['GET','POST','PUT','DELETE','OPTIONS'],
 // }
+
+//testJWT
 
 
 //configuring express

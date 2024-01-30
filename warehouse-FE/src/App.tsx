@@ -3,7 +3,7 @@ import LandingPage from '../pages/LandingPage'
 import RegisterPage from '../pages/RegisterPage'
 import AdminPage from '../pages/AdminPage'
 import StaffPage from '../pages/StaffPage'
-import { createBrowserRouter,RouterProvider } from 'react-router-dom'
+import { createBrowserRouter,RouterProvider,useParams} from 'react-router-dom'
 
 const router = createBrowserRouter([
   {
