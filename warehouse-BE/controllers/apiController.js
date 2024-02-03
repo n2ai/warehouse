@@ -1,24 +1,58 @@
 const bcrypt = require("bcrypt")
 const fakeUserDatabase = require("../fakeDBs/fakeUserDatabase")
 const {createJWT} = require("../middleware/JWTActions")
+const mysql = require('mysql2/promise')
 require("dotenv").config()
 
 const handleLogin = async(req,res)=>{
     try{
-        const user = fakeUserDatabase[0]
-        const password = user.password
-        const validPassword = bcrypt.compare(req.body.password,password)
-        if(validPassword && user.role === "admin"){
+
+        let user = {}
+        let role = 0
+        const password = req.body.password
+        const connection = await mysql.createConnection({
+            host:"localhost",
+            user:"root",
+            password:"Luc!el123",
+            database:"warehouse"
+        })
+
+
+
+        try{
+            const [results,fields] = await connection.query(
+                `SELECT * FROM Users WHERE userName = ?`, [req.body.username],
+                
+            )
+            user = results[0]
+            console.log(user)
+        }catch(err){
+            console.log(err)
+        }
+
+        try{
+            const [results, fields] = await connection.query(
+                `SELECT * FROM Roles WHERE roleId = ?`,[user.roleId]
+            )
+            role = results[0].roleName
+            console.log(role)
+        }catch(err){
+            console.log(err)
+        }
+        
+        const validPassword = bcrypt.compare(password, user.userPassword)
+
+        if(validPassword && role === "admin"){
             let payload = {
                 email:user.email,
-                role:user.role,
+                role:role,
                 expiresIn:process.env.JWT_EXPIRES_IN
             }
             let token=createJWT(payload)
             res.status(200).json({
-                id:user.id,
-                username:user.username,
-                role:user.role,
+                id:user.userId,
+                username:user.userName,
+                role:role,
                 accessToken:token,
             })
         }else if(validPassword){
@@ -26,6 +60,7 @@ const handleLogin = async(req,res)=>{
         }else{
             res.status(400).json('Wrong login')
         }
+
     }catch(err){
         res.status(500).json(err)
     }
