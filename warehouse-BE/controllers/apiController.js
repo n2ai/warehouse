@@ -25,7 +25,6 @@ const handleLogin = async(req,res)=>{
                 
             )
             user = results[0]
-            console.log(user)
         }catch(err){
             console.log(err)
         }
@@ -35,7 +34,6 @@ const handleLogin = async(req,res)=>{
                 `SELECT * FROM Roles WHERE roleId = ?`,[user.roleId]
             )
             role = results[0].roleName
-            console.log(role)
         }catch(err){
             console.log(err)
         }

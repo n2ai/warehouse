@@ -23,6 +23,36 @@ const handleAdminInventory = async(req,res)=>{
         password:"Luc!el123",
         database:"warehouse"
     })
+    try{
+        const [results, fields] = await connection.query(
+            `SELECT * FROM Inventory`
+        )
+    
+        res.status(200).json(results)
+    }catch(err){
+        res.status(500).json("failed to mine data")
+    }
 }
 
-module.exports = {handleAdminLogin, handleAdminInventory}
+const handleUpdateInventory = async(req,res)=>{
+
+    const data = JSON.parse(req.body)
+    const {itemId, itemName, brand, itemPrice, size, releaseDate, itemColor, descriptions} = data
+
+    const connection = await mysql.createConnection({
+        host:"localhost",
+        user:"root",
+        password:"Luc!el123",
+        database:"warehouse"
+    })
+    try{
+        const [results, fields] = await connection.query(
+            `UPDATE SET itemId = ?, itemName = ?, brand = ?, itemPrice = ?, size = ?, releaseDate = ?, itemColor = ?, descriptions = ?`,[
+                itemId, itemName, brand, itemPrice, size, releaseDate, itemColor, descriptions
+            ]
+        )
+    }catch(err){
+    }
+}
+
+module.exports = {handleAdminLogin, handleAdminInventory, handleUpdateInventory}
