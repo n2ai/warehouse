@@ -47,12 +47,52 @@ const handleUpdateInventory = async(req,res)=>{
     })
     try{
         const [results, fields] = await connection.query(
-            `UPDATE SET itemId = ?, itemName = ?, brand = ?, itemPrice = ?, size = ?, releaseDate = ?, itemColor = ?, descriptions = ?`,[
+            `UPDATE Inventory SET itemId = ?, itemName = ?, brand = ?, itemPrice = ?, size = ?, releaseDate = ?, itemColor = ?, descriptions = ?`,[
                 itemId, itemName, brand, itemPrice, size, releaseDate, itemColor, descriptions
             ]
         )
+        res.status(200).JSON("Update success")
     }catch(err){
+        res.status(500).JSON("Failed to update")
     }
 }
 
-module.exports = {handleAdminLogin, handleAdminInventory, handleUpdateInventory}
+const handleCreateInventory = async (req,res)=>{
+    const data = JSON.parse(req.body)
+    const {itemId, itemName, brand, itemPrice, size, releaseDate, itemColor, descriptions} = data
+    const connection = await mysql.createConnection({
+        host:"localhost",
+        user:"root",
+        password:"Luc!el123",
+        database:"warehouse"
+    })
+    try{
+        const [results,fields] = await connection.query(
+            `INSERT INTO Inventory VALUES(?,?,?,?,?,?,?,?)`,[itemId, itemName, brand, itemPrice, size, releaseDate, itemColor, descriptions]
+        )
+        res.status(200).JSON("Add item success")
+    }catch(err){
+        res.status(500).JSON("Failed to add item")
+    }
+    
+}
+
+const handleDeleteInventory  = async (req,res)=>{
+    const itemId = req.body.itemId
+    const connection = await mysql.createConnection({
+        host:"localhost",
+        user:"root",
+        password:"Luc!el123",
+        database:"warehouse"
+    })
+    try{
+        const [results,fields] = await connection.query(
+            `DELETE FROM Inventory WHERE itemId = ?`,[itemId]
+        )
+        res.status(200).JSON("Delete item success")
+    }catch(err){
+        res.status(500).JSON("Failed to delete item")
+    }
+}
+
+module.exports = {handleAdminLogin, handleAdminInventory, handleUpdateInventory, handleCreateInventory, handleDeleteInventory}
