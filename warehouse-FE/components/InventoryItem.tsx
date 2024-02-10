@@ -1,25 +1,27 @@
 import React from 'react';
 
 interface IInventoryItem {
-    id: number,
-    name: string,
-    color: string,
-    size: string,
-    price: number
-    status: string
+    itemId:number,
+    itemName:string,
+    brand:string,
+    itemPrice:number,
+    size:number,
+    releaseDate:string,
+    itemColor:string,
+    descriptions:string
 }
 
 
-const InventoryItem: React.FC<IInventoryItem> = ({ id, name, color, size, price, status }) => {
+const InventoryItem: React.FC<IInventoryItem> = ({itemId, itemName, brand, itemPrice, releaseDate, itemColor,descriptions}) => {
     return (
-        <div>
-            <div>{id}</div>
-            <div>{name}</div>
-            <div>{color}</div>
-            <div>{size}</div>
-            <div>{price}</div>
-            <div>{status}</div>
-        </div>
+        <tr>
+            <td>{itemId}</td>
+            <td>{itemName}</td>
+            <td>{brand}</td>
+            <td>{itemPrice}</td>
+            <td>{releaseDate}</td>
+            <td>{itemColor}</td>
+        </tr>
     )
 
 }
