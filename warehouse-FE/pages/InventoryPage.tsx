@@ -3,7 +3,6 @@ import { useEffect } from 'react';
 import axios from 'axios';
 import InventoryItem from '../components/InventoryItem';
 import { useParams } from 'react-router';
-import { ReadConcern } from 'mongodb';
 
 interface IInventoryItem{
     itemId:number,
@@ -35,13 +34,13 @@ const InventoryPage: React.FC = () => {
     const params = useParams()
 
     /**Get data from database */
-    const getDataBase = ()=>{
+    const getDatabase = ()=>{
         axios.get(`http://localhost:3000/admin/${params.id}/${params.username}/api/inventory`,{withCredentials:true})
         .then(res=>setData(res.data))
     }
 
     useEffect(()=>{
-        getDataBase()
+        getDatabase()
     },[])
 
     /**Set up form data */
@@ -65,7 +64,7 @@ const InventoryPage: React.FC = () => {
         axios.post(`http://localhost:3000/admin/${params.id}/${params.username}/api/inventory`,newData,{withCredentials:true})
         .then(res=>{
             console.log(res)
-            getDataBase()
+            getDatabase()
         }).
         catch(err=>console.log(err))
     }
@@ -75,7 +74,7 @@ const InventoryPage: React.FC = () => {
 
     const itemList = data.map((item)=>{
         return (
-            <InventoryItem itemId={item.itemId} itemName={item.itemName} brand={item.brand} itemPrice={item.itemPrice} size={item.size}
+            <InventoryItem getDatabase={getDatabase} itemId={item.itemId} itemName={item.itemName} brand={item.brand} itemPrice={item.itemPrice} size={item.size}
                 releaseDate={item.releaseDate} itemColor={item.itemColor} descriptions={item.descriptions} />
         )
     })

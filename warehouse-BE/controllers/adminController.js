@@ -78,6 +78,7 @@ const handleCreateInventory = async (req,res)=>{
 
 const handleDeleteInventory  = async (req,res)=>{
     const itemId = req.body.itemId
+    console.log(itemId)
     const connection = await mysql.createConnection({
         host:"localhost",
         user:"root",
@@ -88,9 +89,9 @@ const handleDeleteInventory  = async (req,res)=>{
         const [results,fields] = await connection.query(
             `DELETE FROM Inventory WHERE itemId = ?`,[itemId]
         )
-        res.status(200).JSON("Delete item success")
+        res.status(200).send("Delete item success")
     }catch(err){
-        res.status(500).JSON("Failed to delete item")
+        res.status(500).send("Failed to delete item")
     }
 }
 
