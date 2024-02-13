@@ -35,10 +35,8 @@ const handleAdminInventory = async(req,res)=>{
 }
 
 const handleUpdateInventory = async(req,res)=>{
-
-    const data = JSON.parse(req.body)
+    const data = req.body
     const {itemId, itemName, brand, itemPrice, size, releaseDate, itemColor, descriptions} = data
-
     const connection = await mysql.createConnection({
         host:"localhost",
         user:"root",
@@ -48,17 +46,18 @@ const handleUpdateInventory = async(req,res)=>{
     try{
         const [results, fields] = await connection.query(
             `UPDATE Inventory SET itemId = ?, itemName = ?, brand = ?, itemPrice = ?, size = ?, releaseDate = ?, itemColor = ?, descriptions = ?`,[
-                itemId, itemName, brand, itemPrice, size, releaseDate, itemColor, descriptions
+                Number(itemId), itemName, brand, Number(itemPrice), Number(size), releaseDate, itemColor, descriptions
             ]
         )
-        res.status(200).JSON("Update success")
+        res.json("Update success")
     }catch(err){
-        res.status(500).JSON("Failed to update")
+        res.json("Failed to update")
     }
 }
 
 const handleCreateInventory = async (req,res)=>{
-    const data = JSON.parse(req.body)
+    const data = req.body
+    console.log(data)
     const {itemId, itemName, brand, itemPrice, size, releaseDate, itemColor, descriptions} = data
     const connection = await mysql.createConnection({
         host:"localhost",
@@ -68,11 +67,11 @@ const handleCreateInventory = async (req,res)=>{
     })
     try{
         const [results,fields] = await connection.query(
-            `INSERT INTO Inventory VALUES(?,?,?,?,?,?,?,?)`,[itemId, itemName, brand, itemPrice, size, releaseDate, itemColor, descriptions]
+            `INSERT INTO Inventory VALUES(?,?,?,?,?,?,?,?)`,[Number(itemId), itemName, brand, Number(itemPrice), Number(size), releaseDate, itemColor, descriptions]
         )
-        res.status(200).JSON("Add item success")
+        res.json("Add item success").status(200)
     }catch(err){
-        res.status(500).JSON("Failed to add item")
+        res.json(err)
     }
     
 }

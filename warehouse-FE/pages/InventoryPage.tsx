@@ -20,16 +20,28 @@ interface IInventoryItem{
 const InventoryPage: React.FC = () => {
     
     /**Set States */
-    
+    const emptyState:IInventoryItem = {
+        itemId:0,
+        itemName:'',
+        brand:'',
+        itemPrice:0,
+        size:0,
+        releaseDate:'',
+        itemColor:'',
+        descriptions:''
+    }
     const [data,setData] = useState<IInventoryItem[]>([])
-    const [newData,setNewData] = useState<IInventoryItem>({} as IInventoryItem)
+    const [newData,setNewData] = useState<IInventoryItem>(emptyState)
     const params = useParams()
 
     /**Get data from database */
-
-    useEffect(()=>{
+    const getDataBase = ()=>{
         axios.get(`http://localhost:3000/admin/${params.id}/${params.username}/api/inventory`,{withCredentials:true})
         .then(res=>setData(res.data))
+    }
+
+    useEffect(()=>{
+        getDataBase()
     },[])
 
     /**Set up form data */
@@ -42,7 +54,6 @@ const InventoryPage: React.FC = () => {
     
     const updateItemForm = (e:React.ChangeEvent<HTMLInputElement>)=>{
 
-        e.preventDefault()
         setNewData((prev)=>{
             return(
                 {...prev,[e.target.name]: e.target.value}
@@ -50,6 +61,16 @@ const InventoryPage: React.FC = () => {
         })
     }
 
+    const handleAddNewItem = ()=>{
+        axios.post(`http://localhost:3000/admin/${params.id}/${params.username}/api/inventory`,newData,{withCredentials:true})
+        .then(res=>{
+            console.log(res)
+            getDataBase()
+        }).
+        catch(err=>console.log(err))
+    }
+    
+    console.log(newData)
     /**Set up the row for the table */
 
     const itemList = data.map((item)=>{
@@ -65,21 +86,18 @@ const InventoryPage: React.FC = () => {
         return(
             <div>
                 <label>{item.title}</label>
-                <input onChange={updateItemForm} name={item.name}></input>
+                <input type={ item.name == "itemId" || item.name == "itemPrice" ||  item.name =="size" ? 'number' : 'text'} onChange={updateItemForm} name={item.name}></input>
             </div>
             
         )
     })
 
 
-    const handleUpdateItem = ()=>{
-        axios.post(`http://localhost:3000/admin/${params.id}/${params.username}/api/inventory`,newData,{withCredentials:true})
-    }
-
+    
     return (
         <div>
             <div>
-                <button onClick={handleUpdateItem}>Add new item</button>
+                <button onClick={handleAddNewItem}>Add new item</button>
                 {/**Test input  */}
                 <div>
                     {updateFormList}
