@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import axios from 'axios';
 import InventoryItem from '../components/InventoryItem';
 import { useParams } from 'react-router';
+import EditItemModal from '../components/EditItemModal';
 
 interface IInventoryItem{
     itemId:number,
@@ -31,6 +32,10 @@ const InventoryPage: React.FC = () => {
     }
     const [data,setData] = useState<IInventoryItem[]>([])
     const [newData,setNewData] = useState<IInventoryItem>(emptyState)
+    const [modalVisible, setModalVisible] = useState<boolean>(false)
+    const [modalData,setModalData] = useState<IInventoryItem>(emptyState)
+
+
     const params = useParams()
 
     /**Get data from database */
@@ -74,7 +79,7 @@ const InventoryPage: React.FC = () => {
 
     const itemList = data.map((item)=>{
         return (
-            <InventoryItem getDatabase={getDatabase} itemId={item.itemId} itemName={item.itemName} brand={item.brand} itemPrice={item.itemPrice} size={item.size}
+            <InventoryItem setModalData={setModalData} setModalVisible={setModalVisible} getDatabase={getDatabase} itemId={item.itemId} itemName={item.itemName} brand={item.brand} itemPrice={item.itemPrice} size={item.size}
                 releaseDate={item.releaseDate} itemColor={item.itemColor} descriptions={item.descriptions} />
         )
     })
@@ -115,6 +120,8 @@ const InventoryPage: React.FC = () => {
             </tr>
             {itemList}
            </table>
+           <EditItemModal isVisible={modalVisible} setVisible={setModalVisible} itemId={modalData.itemId} itemName={modalData.itemName} brand={modalData.brand} size={modalData.size} releaseDate={modalData.releaseDate}
+           itemColor={modalData.itemColor} descriptions={modalData.descriptions} itemPrice={modalData.itemPrice} />
         </div>
     )
 }

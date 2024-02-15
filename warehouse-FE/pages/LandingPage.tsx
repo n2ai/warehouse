@@ -1,7 +1,5 @@
 import React from "react"
 import EditItemModal from "../components/EditItemModal"
-
-
     //     itemId: '5',
     //     itemName: 'ss',
     //     brand: 'sadas',

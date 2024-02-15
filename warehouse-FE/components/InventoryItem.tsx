@@ -3,6 +3,17 @@ import axios from 'axios';
 import { useParams } from 'react-router';
 import EditItemModal from './EditItemModal';
 
+interface IModalItem{
+    itemId:number,
+    itemName:string,
+    brand:string,
+    itemPrice:number,
+    size:number,
+    releaseDate:string,
+    itemColor:string,
+    descriptions:string
+}
+
 interface IInventoryItem {
     itemId:number,
     itemName:string,
@@ -12,11 +23,13 @@ interface IInventoryItem {
     releaseDate:string,
     itemColor:string,
     descriptions:string,
-    getDatabase:()=>void
+    getDatabase:()=>void,
+    setModalVisible:React.Dispatch<React.SetStateAction<boolean>>
+    setModalData:React.Dispatch<React.SetStateAction<IModalItem>>
 }
 
 
-const InventoryItem: React.FC<IInventoryItem> = ({itemId, itemName, brand, itemPrice, releaseDate, itemColor,descriptions,getDatabase}) => {
+const InventoryItem: React.FC<IInventoryItem> = ({itemId, itemName, brand, itemPrice, releaseDate, size,itemColor,descriptions,getDatabase,setModalVisible,setModalData}) => {
     
     const targetItem = {itemId:itemId}
     const params = useParams()
@@ -25,6 +38,11 @@ const InventoryItem: React.FC<IInventoryItem> = ({itemId, itemName, brand, itemP
         .then(res=>getDatabase())
         .catch(err=>console.log(err))
     }
+
+    const handleEditAction = ()=>{
+        setModalVisible(prev=>!prev)
+        setModalData({itemId,itemName,brand,itemPrice,releaseDate,itemColor,descriptions,size})
+    }
     
     return (
         <tr>
@@ -32,10 +50,11 @@ const InventoryItem: React.FC<IInventoryItem> = ({itemId, itemName, brand, itemP
             <td>{itemName}</td>
             <td>{brand}</td>
             <td>{itemPrice}</td>
+            <td>{size}</td>
             <td>{releaseDate}</td>
             <td>{itemColor}</td>
             <td>{descriptions}</td>
-            <td><button>Edit</button></td>
+            <td><button onClick={handleEditAction}>Edit</button></td>
             <td><button onClick={handleDelete}>Delete</button></td>
         </tr>
     )
