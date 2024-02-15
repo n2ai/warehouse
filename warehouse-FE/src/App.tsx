@@ -26,10 +26,12 @@ import { createBrowserRouter, RouterProvider, Route, createRoutesFromElements } 
 // ])
 
 function App() {
+  //element={<LandingPage/>}
 
   const router = createBrowserRouter(
     createRoutesFromElements(
-      <Route path='/'>
+      <Route path='/' >
+        <Route index element={<LandingPage/>}></Route>
         <Route path='/api/login' element={<LoginPage/>} ></Route>
         <Route path='/api/register' element={<RegisterPage/>}></Route>
         <Route path='/admin/:id/:username' element={<AdminPage />}>
