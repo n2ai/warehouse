@@ -120,7 +120,7 @@ const InventoryPage: React.FC = () => {
             </tr>
             {itemList}
            </table>
-           <EditItemModal isVisible={modalVisible} setVisible={setModalVisible} itemId={modalData.itemId} itemName={modalData.itemName} brand={modalData.brand} size={modalData.size} releaseDate={modalData.releaseDate}
+           <EditItemModal getData={getDatabase} isVisible={modalVisible} setVisible={setModalVisible} itemId={modalData.itemId} itemName={modalData.itemName} brand={modalData.brand} size={modalData.size} releaseDate={modalData.releaseDate}
            itemColor={modalData.itemColor} descriptions={modalData.descriptions} itemPrice={modalData.itemPrice} />
         </div>
     )

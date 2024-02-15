@@ -23,10 +23,11 @@ interface IEditItemModal{
     itemColor:string,
     descriptions:string,
     setVisible:React.Dispatch<React.SetStateAction<boolean>>,
-    isVisible:boolean
+    isVisible:boolean,
+    getData:()=>void
 }
 
-const EditItemModal:React.FC<IEditItemModal> = ({itemId,itemName,brand,itemPrice,size,releaseDate,itemColor,descriptions,isVisible,setVisible})=>{
+const EditItemModal:React.FC<IEditItemModal> = ({itemId,itemName,brand,itemPrice,size,releaseDate,itemColor,descriptions,isVisible,setVisible,getData})=>{
     // {
     //     itemId: '5',
     //     itemName: 'ss',
@@ -61,9 +62,13 @@ const EditItemModal:React.FC<IEditItemModal> = ({itemId,itemName,brand,itemPrice
     }
 
     const handleUpdateData = ()=>{
+        console.log(updateForm)
         axios.put('http://localhost:3000/admin/${params.id}/${params.username}/api/inventory',updateForm,{withCredentials:true})
+        .then(res=>getData())
         setVisible(prev=>!prev)
     }
+
+    
 
     return(
         <>

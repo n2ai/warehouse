@@ -36,6 +36,7 @@ const handleAdminInventory = async(req,res)=>{
 
 const handleUpdateInventory = async(req,res)=>{
     const data = req.body
+    console.log(data)
     const {itemId, itemName, brand, itemPrice, size, releaseDate, itemColor, descriptions} = data
     const connection = await mysql.createConnection({
         host:"localhost",
@@ -45,13 +46,13 @@ const handleUpdateInventory = async(req,res)=>{
     })
     try{
         const [results, fields] = await connection.query(
-            `UPDATE Inventory SET itemId = ?, itemName = ?, brand = ?, itemPrice = ?, size = ?, releaseDate = ?, itemColor = ?, descriptions = ?`,[
-                Number(itemId), itemName, brand, Number(itemPrice), Number(size), releaseDate, itemColor, descriptions
+            `UPDATE Inventory SET itemId = ?, itemName = ?, brand = ?, itemPrice = ?, size = ?, releaseDate = ?, itemColor = ?, descriptions = ? WHERE itemId=?`,[
+                Number(itemId), itemName, brand, Number(itemPrice), Number(size), releaseDate, itemColor, descriptions,Number(itemId)
             ]
         )
         res.json("Update success")
     }catch(err){
-        res.json("Failed to update")
+        res.json(err)
     }
 }
 
