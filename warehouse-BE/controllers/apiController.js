@@ -1,12 +1,11 @@
 const bcrypt = require("bcrypt")
-const fakeUserDatabase = require("../fakeDBs/fakeUserDatabase")
 const {createJWT} = require("../middleware/JWTActions")
 const mysql = require('mysql2/promise')
 require("dotenv").config()
 
 const handleLogin = async(req,res)=>{
     try{
-
+        
         let user = {}
         let role = 0
         const password = req.body.password
