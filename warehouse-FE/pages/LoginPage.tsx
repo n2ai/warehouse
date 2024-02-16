@@ -3,7 +3,6 @@ import '../styles/loginPage.css'
 import axios from 'axios'
 import { useState } from "react"
 import { useNavigate } from 'react-router'
-
 import { useCookies } from 'react-cookie'
 interface ILoginForm {
     username: string,
@@ -46,13 +45,23 @@ const LoginPage: React.FC = () => {
             .catch(err => alert(err))
     }
     return (
-        <div>
-            <h1>Login</h1>
-            <label>Username</label>
-            <input onChange={handleLogin} placeholder="enter username" name="username"></input>
-            <label>Password</label>
-            <input onChange={handleLogin} placeholder="enter password" name="password"></input>
-            <button onClick={submitCredential}>Sign In</button>
+        <div className='loginPage_container'>
+            <div className='loginPage_mainContent'>
+                <div className='loginPage_title center'>
+                    <h1>Login</h1>
+                </div>
+                <div className='loginPage_username center'>
+                    <label>Username</label>
+                    <input onChange={handleLogin} placeholder="enter username" name="username"></input>
+                </div>
+                <div className='loginPage_password center'>
+                    <label>Password</label>
+                    <input onChange={handleLogin} placeholder="enter password" name="password"></input>
+                </div>
+                <div className='loginPage_button center'>
+                    <button onClick={submitCredential}>Sign In</button>
+                </div>
+            </div>
         </div>
     )
 }
