@@ -54,8 +54,8 @@ const InventoryItem: React.FC<IInventoryItem> = ({itemId, itemName, brand, itemP
             <td>{releaseDate}</td>
             <td>{itemColor}</td>
             <td>{descriptions}</td>
-            <td><button onClick={handleEditAction}>Edit</button></td>
-            <td><button onClick={handleDelete}>Delete</button></td>
+            <td><button className='edit_button' onClick={handleEditAction}>Edit</button></td>
+            <td><button className='delete_button' onClick={handleDelete}>Delete</button></td>
         </tr>
     )
 

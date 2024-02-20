@@ -4,6 +4,7 @@ import axios from 'axios';
 import InventoryItem from '../components/InventoryItem';
 import { useParams } from 'react-router';
 import EditItemModal from '../components/EditItemModal';
+import '../styles/inventoryPage.css'
 
 interface IInventoryItem{
     itemId:number,
@@ -100,25 +101,25 @@ const InventoryPage: React.FC = () => {
     
     return (
         <div>
-            <div>
+            <div className='inventory_add_form'>
                 <button onClick={handleAddNewItem}>Add new item</button>
                 {/**Test input  */}
                 <div>
                     {updateFormList}
                 </div>
             </div>
-           <table>
-            <tr>
-                <th>Item ID</th>
-                <th>Item Name</th>
-                <th>Brand Name</th>
-                <th>Price {`($)`}</th>
-                <th>Size</th>
-                <th>Release Date</th>
-                <th>Item Color</th>
-                <th>Descriptions</th>
-            </tr>
-            {itemList}
+           <table className='inventory_table'>
+                <tr className='inventory_table_row'>
+                    <th>Item ID</th>
+                    <th>Item Name</th>
+                    <th>Brand Name</th>
+                    <th>Price {`($)`}</th>
+                    <th>Size</th>
+                    <th>Release Date</th>
+                    <th>Item Color</th>
+                    <th>Descriptions</th>
+                </tr>
+                {itemList}
            </table>
            <EditItemModal getData={getDatabase} isVisible={modalVisible} setVisible={setModalVisible} itemId={modalData.itemId} itemName={modalData.itemName} brand={modalData.brand} size={modalData.size} releaseDate={modalData.releaseDate}
            itemColor={modalData.itemColor} descriptions={modalData.descriptions} itemPrice={modalData.itemPrice} />

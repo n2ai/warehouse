@@ -35,8 +35,9 @@ function App() {
         <Route path='/api/login' element={<LoginPage/>} ></Route>
         <Route path='/api/register' element={<RegisterPage/>}></Route>
         <Route path='/admin/:id/:username' element={<AdminPage />}>
-          <Route path='/admin/:id/:username/api/inventory' element={<InventoryPage/>}></Route>
         </Route>
+
+        <Route path='/admin/:id/:username/api/inventory' element={<InventoryPage/>}></Route>
         <Route path='/staff' element={<StaffPage/>}></Route>
       </Route>
     )

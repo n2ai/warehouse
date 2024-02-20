@@ -39,7 +39,7 @@ const LoginPage: React.FC = () => {
                 console.log(cookies)
                 console.log(response.data)
                 if(response.data.role == 'admin'){
-                    navigate(`/admin/${response.data.id}/${response.data.username}`)
+                    navigate(`/admin/${response.data.id}/${response.data.username}/api/inventory`)
                 }
             })
             .catch(err => alert(err))
@@ -56,10 +56,10 @@ const LoginPage: React.FC = () => {
                 </div>
                 <div className='loginPage_password center'>
                     <label>Password</label>
-                    <input onChange={handleLogin} placeholder="enter password" name="password"></input>
+                    <input type='password' onChange={handleLogin} placeholder="enter password" name="password"></input>
                 </div>
-                <div className='loginPage_button center'>
-                    <button onClick={submitCredential}>Sign In</button>
+                <div className='loginPage_button_container center'>
+                    <button className='loginPage_button' onClick={submitCredential}>Sign In</button>
                 </div>
             </div>
         </div>
